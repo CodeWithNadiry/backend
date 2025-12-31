@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -32,7 +31,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(multer({ storage: fileStorage, fileFilter }).single("image"));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(cors({origin: '*'}));
@@ -65,6 +64,7 @@ mongoose
     // Create admin only if it doesn't exist
     createAdmin();
 
-    app.listen(8080, () => console.log("Server running on port 8080"));
+    const PORT = process.env.PORT || 8080;
+    app.listen(PORT, () => console.log("Server running on port 8080"));
   })
   .catch((err) => console.log(err));
