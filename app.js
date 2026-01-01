@@ -4,8 +4,7 @@ const path = require("path");
 const multer = require("multer");
 const cors = require("cors");
 const app = express();
-require('dotenv').config();
-
+require("dotenv").config();
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -23,7 +22,8 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === "image/jpg" ||
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/png" ||
-    file.mimetype === "image/avif" || file.mimetype === 'image/webp'
+    file.mimetype === "image/avif" ||
+    file.mimetype === "image/webp"
   ) {
     cb(null, true);
   } else {
@@ -33,8 +33,8 @@ const fileFilter = (req, file, cb) => {
 
 app.use(express.json());
 app.use(multer({ storage: fileStorage, fileFilter }).single("image"));
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use(cors({origin: '*'}));
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(cors({ origin: "*" }));
 
 const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
@@ -65,6 +65,8 @@ mongoose
     createAdmin();
 
     const PORT = process.env.PORT || 8080;
-    app.listen(PORT, () => console.log("Server running on port 8080"));
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log("🚀 Server running on port " + PORT);
+    });
   })
   .catch((err) => console.log(err));
